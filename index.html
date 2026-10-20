@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uma Surpresa Especial para Você ❤️</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Confetes -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <main class="app-container">
+    <div id="main-card" class="card-box glass-card">
+      
+      <!-- TELA 1: PERGUNTA INICIAL -->
+      <div id="question-step">
+        <div class="heart-pulse">💖</div>
+        <h1 class="main-title">Pergunta Importante</h1>
+        <h2 class="sub-title">Você me ama?</h2>
+
+        <div class="buttons-container">
+          <button id="btn-sim" class="btn btn-yes">Sim, muito! 😍✨</button>
+          <button id="btn-nao" class="btn btn-no">Não... 💔</button>
+        </div>
+      </div>
+
+      <!-- TELA 2: CONTEÚDO COMPLETO DA SURPRESA -->
+      <div id="surprise-step" class="hidden">
+        
+        <!-- PLAYER DE MÚSICA ESTILIZADO -->
+        <div class="music-card">
+          <div class="music-header">
+            <span class="music-icon">🎵</span>
+            <span class="music-title">Trilha Sonora do Nosso Amor</span>
+          </div>
+          <audio id="bg-music" loop preload="auto" src="interstellar.mp3"></audio>
+
+          <div class="music-actions">
+            <button id="btn-play-music" class="btn-music">▶️ Tocar Música</button>
+            <label for="music-input" id="label-music-upload" class="btn-music-outline">🎼 Escolher Música do Celular</label>
+            <input type="file" id="music-input" accept="audio/*" class="hidden-input">
+          </div>
+          <p id="audio-upload-status" style="font-size: 0.8rem; color: #ffd700; margin-top: 8px; display: none; text-align: center;"></p>
+        </div>
+
+        <div class="heart-pulse-small">💖✨</div>
+        <h2 class="surprise-title">Eu sabia! Você é o grande amor da minha vida! ❤️</h2>
+
+        <!-- CONTADOR DE TEMPO DE AMOR -->
+        <div class="counter-section" style="background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 12px; margin: 15px 0; text-align: center;">
+          <div id="date-input-container" style="margin-bottom: 10px;">
+            <label for="love-date-input" style="font-size: 0.85rem; color: #fff; display: block; margin-bottom: 5px;">🗓️ Quando vocês começaram a namorar?</label>
+            <input type="date" id="love-date-input" style="padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.3); color: #fff; font-family: inherit; font-size: 0.85rem;">
+          </div>
+
+          <p style="font-size: 0.85rem; color: #fff; margin-bottom: 5px;">⏳ Juntos há:</p>
+          <div id="love-counter" style="font-size: 0.95rem; font-weight: bold; color: #ffd700;">Selecione a data acima ❤️</div>
+        </div>
+
+        <!-- MENSAGEM PERSONALIZADA -->
+        <div class="message-section">
+          <label for="user-message" id="label-msg" class="section-label">✍️ Sua Declaração de Amor:</label>
+          <textarea id="user-message" placeholder="Escreva aqui tudo o que sente...">Desde que você entrou na minha vida, todos os dias se tornaram mais floridos e felizes. OBRIGADO por ser minha pessoa favorita no mundo inteiro! Te amo infinitamente! ❤️✨</textarea>
+          <p id="display-message" class="message-text hidden"></p>
+        </div>
+
+        <!-- GALERIA DE FOTOS (ESTEIRA CONTÍNUA COM PAUSA NO CLIQUE) -->
+        <div class="gallery-section">
+          <div class="gallery-header">
+            <span class="section-label">📸 Nossos Momentos Inesquecíveis:</span>
+            <label for="photo-input" id="label-photo-upload" class="btn-upload-photo">📷 Trocar Fotos</label>
+            <input type="file" id="photo-input" accept="image/*" multiple class="hidden-input">
+          </div>
+          <p class="click-hint">✨ Toque na foto para pausar e ver a mensagem secreta:</p>
+
+          <!-- CONTAINER DO CARROSSEL -->
+          <div class="cards-grid" id="cards-grid">
+            <div class="carousel-track" id="carousel-track">
+              
+              <!-- CARTÃO 1 -->
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=500&q=80');">
+                    <div class="card-badge">Toque para ver ❤️</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <p>Cada segundo ao seu lado vale mais que mil anos sem você! ✨💌</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CARTÃO 2 -->
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=500&q=80');">
+                    <div class="card-badge">Segredo Nosso 🌹</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <p>Meu lugar favorito no mundo é dentro do seu abraço carinhoso! 💏💖</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CARTÃO 3 -->
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front" style="background-image: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=500&q=80');">
+                    <div class="card-badge">Para Sempre 💕</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <p>Prometo te amar e te fazer a pessoa mais feliz do mundo todos os dias! ✨💍</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- DUPLICAÇÃO PARA LOOP PERFEITO DA ESTEIRA -->
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=500&q=80');">
+                    <div class="card-badge">Toque para ver ❤️</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <p>Cada segundo ao seu lado vale mais que mil anos sem você! ✨💌</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front" style="background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=500&q=80');">
+                    <div class="card-badge">Segredo Nosso 🌹</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <p>Meu lugar favorito no mundo é dentro do seu abraço carinhoso! 💏💖</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front" style="background-image: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=500&q=80');">
+                    <div class="card-badge">Para Sempre 💕</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <p>Prometo te amar e te fazer a pessoa mais feliz do mundo todos os dias! ✨💍</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ÁREA DE ENVIO E MONETIZAÇÃO -->
+        <div id="sender-controls" class="action-buttons">
+          <button id="btnOpenPix" class="btn btn-primary-glow">
+            ⚡ Pagar R$ 5,00 & Compartilhar no WhatsApp
+          </button>
+          <a id="btnSendWhatsapp" class="btn btn-whatsapp disabled-btn hidden" href="#" target="_blank">
+            📲 Enviar Surpresa no WhatsApp
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL DE PAGAMENTO PIX -->
+  <div id="pix-modal" class="modal-overlay hidden">
+    <div class="modal-content glass-card-modal">
+      <button id="btn-close-pix" class="modal-close">&times;</button>
+      <div class="modal-header">
+        <h2>Liberação da Surpresa ⚡</h2>
+        <p class="pix-price">Valor único: <strong>R$ 5,00</strong></p>
+      </div>
+
+      <div class="qr-container">
+        <img id="pix-qr-code" src="" alt="Gerando QR Code Pix...">
+      </div>
+
+      <div class="pix-copia-cola-box">
+        <label for="pix-code-input">Código Pix Copia e Cola:</label>
+        <input type="text" id="pix-code-input" readonly value="Carregando código Pix...">
+        <button id="btn-copy-pix" class="btn btn-primary">📋 Copiar Código Pix</button>
+      </div>
+
+      <div class="payment-status-waiting">
+        <div class="spinner"></div>
+        <p id="status-text">Aguardando confirmação do pagamento no aplicativo do seu banco...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
