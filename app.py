@@ -10,7 +10,6 @@ CORS(app)  # Permite requisições de qualquer origem (Netlify, Live Server, etc
 surpresas_db = {}
 
 # Configuração do Mercado Pago
-# Cole seu Access Token real aqui se tiver, ou deixe o padrão para testar livremente
 ACCESS_TOKEN = "SEU_ACCESS_TOKEN_AQUI" 
 
 try:
@@ -28,7 +27,7 @@ def create_pix():
         return jsonify({"status": "ok"}), 200
 
     try:
-        # Modo de Teste Automático: se não houver token real, gera um QR Code fictício para testes
+        # Modo de Teste Automático se não houver token real configurado
         if not sdk or ACCESS_TOKEN == "SEU_ACCESS_TOKEN_AQUI":
             return jsonify({
                 "payment_id": "test_payment_123456",
@@ -63,10 +62,12 @@ def create_pix():
         print("Erro no servidor ao criar PIX:", e)
         return jsonify({"error": str(e)}), 500
 
-@app.route('/api/check-pix/<payment_id>', methods=['GET'])
+@app.route('/api/check-pix/<payment_id>', methods=['GET', 'OPTIONS'])
 def check_pix(payment_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"status": "ok"}), 200
+        
     try:
-        # Aprova automaticamente se for o pagamento de teste
         if payment_id == "test_payment_123456":
             return jsonify({"status": "PAID"})
 
@@ -83,19 +84,29 @@ def check_pix(payment_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/api/save-surprise', methods=['POST'])
+@app.route('/api/save-surprise', methods=['POST', 'OPTIONS'])
 def save_surprise():
+    if request.method == 'OPTIONS':
+        return jsonify({"status": "ok"}), 200
+        
     try:
         data = request.json
+        if not data:
+            return jsonify({"success": False, "error": "Nenhum dado recebido"}), 400
+            
         surprise_id = str(uuid.uuid4())[:8]  # Gera um ID curto de 8 caracteres
         surpresas_db[surprise_id] = data
+        print(f"✅ Surpresa salva com sucesso! ID: {surprise_id}")
         return jsonify({"success": True, "id": surprise_id})
     except Exception as e:
-        print("Erro ao salvar surpresa:", e)
+        print("❌ Erro ao salvar surpresa:", str(e))
         return jsonify({"success": False, "error": str(e)}), 500
 
-@app.route('/api/get-surprise/<surprise_id>', methods=['GET'])
+@app.route('/api/get-surprise/<surprise_id>', methods=['GET', 'OPTIONS'])
 def get_surprise(surprise_id):
+    if request.method == 'OPTIONS':
+        return jsonify({"status": "ok"}), 200
+        
     surprise = surpresas_db.get(surprise_id)
     if surprise:
         return jsonify({"success": True, "data": surprise})
