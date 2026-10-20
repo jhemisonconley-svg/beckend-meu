@@ -1,7 +1,10 @@
 let pixInterval = null;
 let customMusicCloudUrl = ""; 
 let uploadedPhotoUrls = [];   
-let selectedLoveDate = "";     
+let selectedLoveDate = "";    
+
+// URL base do backend no Render (centralizada para evitar erros)
+const API_BASE_URL = "https://meu-arquivo.onrender.com";
 
 document.addEventListener("DOMContentLoaded", () => {
     const btnSim = document.getElementById("btn-sim");
@@ -18,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loveDateInput = document.getElementById("love-date-input");
 
     // Acorda o backend no Render em segundo plano
-    fetch("https://meu-arquivo.onrender.com/api/create-pix", { method: "OPTIONS" }).catch(() => {});
+    fetch(`${API_BASE_URL}/api/create-pix`, { method: "OPTIONS" }).catch(() => {});
 
     // Renderiza as fotos padrão do exemplo logo de início
     renderPhotoTrack([]);
@@ -145,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cardsGrid.innerHTML = `<div style="text-align:center; color:#fff; width:100%; padding:20px;">⏳ Enviando fotos para a nuvem...</div>`;
                 uploadedPhotoUrls = [];
 
-                const apiKey = "3fb46bc4892a76cb34a6bedd1e905c29"; // Chave ImgBB atualizada
+                const apiKey = "3fb46bc4892a76cb34a6bedd1e905c29";
 
                 const cardsArray = Array.from(files);
                 for (let index = 0; index < cardsArray.length; index++) {
@@ -320,7 +323,7 @@ async function setupReceiverMode(urlParams) {
     }
 
     try {
-        const response = await fetch(`https://meu-arquivo.onrender.com/api/get-surprise/${surpriseId}`);
+        const response = await fetch(`${API_BASE_URL}/api/get-surprise/${surpriseId}`);
         const result = await response.json();
 
         if (result.success && result.data) {
@@ -363,7 +366,7 @@ async function generatePixPayment() {
     }
 
     try {
-        const response = await fetch("https://meu-arquivo.onrender.com/api/create-pix", {
+        const response = await fetch(`${API_BASE_URL}/api/create-pix`, {
             method: "POST",
             headers: { "Content-Type": "application/json" }
         });
@@ -396,7 +399,7 @@ function startPixPolling(paymentId) {
 
     pixInterval = setInterval(async () => {
         try {
-            const res = await fetch(`https://meu-arquivo.onrender.com/api/check-pix/${paymentId}`);
+            const res = await fetch(`${API_BASE_URL}/api/check-pix/${paymentId}`);
             const data = await res.json();
 
             if (data.status === "PAID") {
@@ -431,7 +434,7 @@ async function unlockWhatsappButton() {
     }
 
     try {
-        const response = await fetch("https://meu-arquivo.onrender.com/api/save-surprise", {
+        const response = await fetch(`${API_BASE_URL}/api/save-surprise`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
@@ -439,7 +442,7 @@ async function unlockWhatsappButton() {
 
         const result = await response.json();
 
-        if (result.success && result.id) {
+        if (response.ok && result.success && result.id) {
             const baseUrl = window.location.href.split("?")[0];
             const shortShareableUrl = `${baseUrl}?id=${result.id}`;
 
@@ -464,10 +467,11 @@ async function unlockWhatsappButton() {
                 btnOpenPix.style.display = "none";
             }
         } else {
+            console.error("Erro retornado pelo servidor ao salvar:", result);
             throw new Error("Erro ao gerar ID");
         }
     } catch (err) {
-        console.error("Erro:", err);
+        console.error("Erro detalhado:", err);
         alert("Erro ao criar o link curto. Tente novamente.");
         if (btnSendWhatsapp) btnSendWhatsapp.innerText = "📲 Enviar Surpresa no WhatsApp";
     }
