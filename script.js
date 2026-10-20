@@ -472,7 +472,7 @@ async function unlockWhatsappButton() {
         }
     } catch (err) {
         console.error("Erro detalhado:", err);
-        alert("Erro ao criar o link curto. Tente novamente.");
+        alert("Erro técnico: " + err.message); // Mostra o erro real na tela do telemóvel para diagnóstico
         if (btnSendWhatsapp) btnSendWhatsapp.innerText = "📲 Enviar Surpresa no WhatsApp";
     }
 }
